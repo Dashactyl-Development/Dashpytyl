@@ -7,6 +7,7 @@ Dashpytyl is inspired from dashactyl, Dashactyl is a client area, which allows u
 Dashactyl is developed by the community and people. Check out the Discord: https://discord.gg/yEv2KhVbWX
 
 Website for Dashactyl: https://dashactyl.com
+
 Website for Dashpytyl: Soon
 
 # Wiki
