@@ -1,1 +1,12 @@
-
+{
+    "pterodactyl": {
+        "url": "pterodactyl panel domain",
+        "key": "pterodactyl panel admin api key with all read and writes"
+    },
+    "discord": {
+        "_comment": "Go to https://discord.dev/ and create an application to set these up.",
+        "application_id": "discord oauth2 application id",
+        "secret_key": "discord oauth2 application secret",
+        "redirect_uri": "discord oauth2 application link with the '/callback'"
+    }
+}
