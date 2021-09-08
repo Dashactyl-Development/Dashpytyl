@@ -13,6 +13,7 @@ Website for Dashpytyl: Soon
 # Wiki
 
 Soon
+
 #Features
 | Feature               | Available |
 |-----------------------|-----------|
