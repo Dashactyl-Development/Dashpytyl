@@ -28,6 +28,7 @@ Soon
 | Earning coins         | ❌         |
 | Resources shop        | ❌         |
 
+more features will be added soon.
 
 # Disclaimer
 
