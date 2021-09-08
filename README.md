@@ -14,7 +14,7 @@ Website for Dashpytyl: Soon
 
 Soon
 
-#Features
+# Features
 | Feature               | Available |
 |-----------------------|-----------|
 | Server creation       | ❌         |
