@@ -13,6 +13,20 @@ Website for Dashpytyl: Soon
 # Wiki
 
 Soon
+#Features
+| Feature               | Available |
+|-----------------------|-----------|
+| Server creation       | ❌         |
+| Server editing        | ❌         |
+| Server deletion       | ❌         |
+| Panel credentials     | ✔️         |
+| Login                 | ✔️         |
+| Registering           | ✔️         |
+| Discord oAuth handler | ✔️         |
+| Queue system          | ❌         |
+| Earning coins         | ❌         |
+| Resources shop        | ❌         |
+
 
 # Disclaimer
 
