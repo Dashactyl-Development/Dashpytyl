@@ -1,71 +1,58 @@
 import os
+import sys
+import requests
+
 from api import configfile, userdata
-from flask import Flask, session , render_template, redirect, url_for , request
-from flask_discord import DiscordOAuth2Session, requires_authorization, Unauthorized
+from quart import Quart, render_template, request, session, redirect, url_for
+from quart_discord import DiscordOAuth2Session ,requires_authorization, Unauthorized
 from pydactyl import PterodactylClient
 
-app = Flask(__name__)
+app = Quart(__name__)
 
-app.secret_key = configfile.discordsettings["secret_key"]
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "true"
-app.config["DISCORD_CLIENT_ID"] = configfile.discordsettings["application_id"]
-app.config["DISCORD_CLIENT_SECRET"] = configfile.discordsettings["secret_key"]
-app.config["DISCORD_REDIRECT_URI"] = configfile.discordsettings["redirect_uri"]
+app.config["SECRET_KEY"] = "somdomethingslmafo"
+app.config["DISCORD_CLIENT_ID"] = configfile.discordsettings["application_id"]   # Discord client ID.
+app.config["DISCORD_CLIENT_SECRET"] = configfile.discordsettings["secret_key"]   # Discord client secret.
+app.config["DISCORD_REDIRECT_URI"] = configfile.discordsettings["redirect_uri"]  
 pteroapplication = PterodactylClient(configfile.pteroURL, configfile.pteroAppKey)
-
 discord = DiscordOAuth2Session(app)
 
 
-@app.route('/callback/')
-def callback():
-    discord.callback()
-    return redirect(url_for('index'))
 
-
-@app.route('/login/')
-def login():
-    return discord.create_session()
-
-
-@app.route('/')
-def index():
-    if discord.authorized:
-
-        user = discord.fetch_user()
-
-        try:
-            userdata.checkIfUserExists(user.email)
-            return f"you have an account! Here is your user data: {userdata.checkIfUserExists(user.email)}"
+@app.route("/")
+async def home():
+    if not await discord.authorized:
+        return await render_template('index.html')
+    else:
+        user = await discord.fetch_user()
+        #try:
             
-        except IndexError:
+        headers = {
+        "Authorization": f"Bearer {configfile.pteroAppKey}",
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+        }
+        data=requests.get(f"{configfile.pteroURL}/api/client/account?filter{str(f'={user.email}')}", headers=headers)
+        print(data)
+        if data == 401:
+            return await render_template("dashboard.html", username=user.name, userdicr=user.discriminator, userid=user.id, usermail=user.email)
+        else:    
             return redirect(url_for('createuser'))
-        
 
-    elif not discord.authorized:
-        return "u havent logged in <a href=\"/login/\">click here to login</a>"
+@app.route("/login")
+async def login():
+	return await discord.create_session()
 
+@app.route('/callback')
+async def callback():
+    await discord.callback()
+    return redirect(url_for('home'))
 
-@app.route('/logout/')
-def logout():
-
-    discord.revoke()
-
-    return redirect(url_for('index'))
-
-@app.route('/create/')
+@app.route('/create')
 @requires_authorization
-def createuser():
-
-    user = discord.fetch_user()
-
-    try:
-        userdata.checkIfUserExists(user.email)
-        return redirect(url_for('index'))
-
-    except IndexError:
-        userdata.create_user(user.username, user.email, user.id)
-        return redirect(url_for('index'))
-
+async def createuser():
+    user = await discord.fetch_user()
+    userdata.create_user(user.name, user.email, user.id, user.discriminator)
+    return await render_template("dashboard.html", user=user, panellink=configfile.pteroURL)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+	app.run(debug=True,port=4949)
