@@ -39,29 +39,21 @@ def checkIfUserExists(discordEmail):
         "Content-Type": "application/json"
     }
     response = requests.get(url, headers=headers).json()['data']
-    i = 0
-    for i in range(len(response)):
-        emailtester = response[i]['attributes']['email']
-        if emailtester == discordEmail:
-            response = response[i]['attributes']
-            break
-        else:
-            i += 1
-    return response
+    
 
-def create_user(discordUsername, discordEmail, discordUserID):
+def create_user(discordUsername, discordEmail, discordUserID, discorddic):
 
     # Main function #
 
-    userdataHeaders = {
+    url = pteroURL+'/api/application/users'
+    headers = {
         "Authorization": f"Bearer {pteroAppKey}",
         "Accept": "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "cookie": "pterodactyl_session=eyJpdiI6InhIVXp5ZE43WlMxUU1NQ1pyNWRFa1E9PSIsInZhbHVlIjoiQTNpcE9JV3FlcmZ6Ym9vS0dBTmxXMGtST2xyTFJvVEM5NWVWbVFJSnV6S1dwcTVGWHBhZzdjMHpkN0RNdDVkQiIsIm1hYyI6IjAxYTI5NDY1OWMzNDJlZWU2OTc3ZDYxYzIyMzlhZTFiYWY1ZjgwMjAwZjY3MDU4ZDYwMzhjOTRmYjMzNDliN2YifQ%253D%253D"
     }
-    
 
-    makeUser = '{"discordEmail": "'+str(discordEmail)+'","username": "'+str(discordUsername)+'","first_name": "'+str(discordUsername)+'","last_name": "'+str(discordUserID)+'", "password": "changeme123"}'
+    payload = '{"email": "'+str(discordEmail)+'","username": "'+str(discordUserID)+'","first_name": "'+str(discordUsername)+'","last_name": "'+str(discorddic)+'"}'
 
-
-    userdataResponse = requests.request('POST', url=f'{pteroURL}/api/application/users', data=makeUser, headers=userdataHeaders)
-    print(userdataResponse)
+    response = requests.request('POST', url, data=payload, headers=headers)
+    print(response.text)

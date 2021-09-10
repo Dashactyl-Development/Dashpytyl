@@ -18,7 +18,7 @@ clientID = discordsettings['application_id']
 clientSecret = discordsettings['secret_key']
 redirectURI = discordsettings['redirect_uri']
 
-pteroURL = pterosettings['URL']
+pteroURL = pterosettings['url']
 pteroAppKey= pterosettings['key']
 
 with open('api\\users.json') as usrs:
