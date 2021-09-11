@@ -1,4 +1,7 @@
 {
+    "website": {
+        "port": "80"
+    },
     "pterodactyl": {
         "url": "pterodactyl panel domain",
         "key": "pterodactyl panel admin api key with all read and writes"
