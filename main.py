@@ -68,4 +68,4 @@ def createuser():
     return render_template("dashboard.html", user=user, panellink=configfile.pteroURL)
 
 if __name__ == "__main__":
-	app.run(debug=True,port=5000)
+	app.run(debug=True,port=configfile.webport)
