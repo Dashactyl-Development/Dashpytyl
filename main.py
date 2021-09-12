@@ -68,6 +68,9 @@ def logout():
 @app.route("/")
 def index():
     if discord.authorized:
+
+		lbDatabase.checkifexists(user.id, f"{user.username}#{user.discriminator}")
+
         user = discord.fetch_user()
         headers = {
             "Authorization": f"Bearer {configfile.pteroAppKey}",
@@ -110,28 +113,7 @@ def createserver():
 #   - giorno
 @app.route('/earn/', methods=["POST", "GET"])
 def earncoins():
-
-	if discord.authorized:
-
-		user = discord.fetch_user()
-
-		lbDatabase.checkifexists(user.id, f"{user.username}#{user.discriminator}")
-
-		if type(request.get_json()) is None:
-			pass
-
-		elif type(request.get_json()) is dict:
-			coins.addCoins(str(user.id), int(request.get_json()["coins"]))
-
-		return render_template("earning.html")
-
-	elif not discord.authorized:
-		return redirect(url_for("login"))
-
-
-@app.route('/leaderboard')
-def leaderboard():
-
+	
 	global userIDtoName
 	global afkleaderboardlist
 	global leaderboardCoinsList
@@ -141,19 +123,10 @@ def leaderboard():
 
 		user = discord.fetch_user()
 
-
 		with open("static/js/coins.json") as coin_:
 			coins = json.load(coin_)
 		with open("api/usernameToUserID.json") as _usernameAndID:
 			usernameAndID = json.load(_usernameAndID)
-		with open("admins.json", "r") as adminsjsonfile:
-			adminsjson = json.load(adminsjsonfile)
-			adminsjson = adminsjson["admins"]
-		if user.id in adminsjson:
-			admins = '<a href="/admin">Admin</a>'
-		else:
-			admins = ""
-		
 
 		lbDatabase.checkifexists(user.id, f"{user.username}#{user.discriminator}")
 
@@ -177,47 +150,19 @@ def leaderboard():
 			afkleaderboardlist.append(
                 f"{userIDtoName[l]} -> {leaderboardCoinsList[l]}")
 
-		return render_template('leaderboard.html',
-			leaderboardpeople=afkleaderboardlist,
-			loginStatus=f'<a href="/me">{user.username}#{user.discriminator}</a>',
-            admin=admins,
-            earn='<a href="/earn">Earn</a>',
-			shop="<a href=\"/shoplogin\">Shop</a>"
-            )
+		lbDatabase.checkifexists(user.id, f"{user.username}#{user.discriminator}")
+
+		if type(request.get_json()) is None:
+			pass
+
+		elif type(request.get_json()) is dict:
+			coins.addCoins(str(user.id), int(request.get_json()["coins"]))
+
+		return render_template("earning.html", leaderboardpeople=afkleaderboardlist)
 
 	elif not discord.authorized:
-
-		with open("static/js/coins.json") as coin_:
-			coins = json.load(coin_)
-
-		with open("api/usernameToUserID.json"
-                  ) as _usernameAndID:
-			usernameAndID = json.load(_usernameAndID)
-
-		userIDtoName = {}
-		leaderboardCoinsList = {}
-		afkleaderboardlist = []
-		leaderboarduserIDlist = []
-		i = 0
-		j = 0
-		l = 0
-
-		leaderboarduserIDlist = sorted(coins, key=coins.get, reverse=True)[:10]
-
-		for i in leaderboarduserIDlist:
-			userIDtoName[str(i)] = f"{usernameAndID[str(i)]}"
-
-		for j in leaderboarduserIDlist:
-			leaderboardCoinsList[str(j)] = coins[str(j)]
-
-		for l in leaderboarduserIDlist:
-			afkleaderboardlist.append(
-                f"{userIDtoName[l]} - {leaderboardCoinsList[l]} coins")
-		return render_template('leaderboard.html',
-			leaderboardpeople=afkleaderboardlist,
-			loginStatus=f'<a href="/login">Login</a>'           
-		)
+		return redirect(url_for("login"))
 
 
-
-app.run(debug=True, port=configfile.webport)
+if __name__ == "__main__":
+	app.run(debug=True, port=configfile.webport)
