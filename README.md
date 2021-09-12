@@ -2,36 +2,39 @@
 
 # Dashpytyl
 
-Dashpytyl is inspired from dashactyl, Dashactyl is a client area, which allows users to split resources throughout multiple servers on the Pterodactyl Panel, and uses a Discord OAuth2 as a login system. 
+Dashpytyl is a Pterodactyl based client dashboard system inspired by <a href="https://github.com/real2two/dashactyl">Dashactyl</a> 
 
-Dashactyl is developed by the community and people. Check out the Discord: https://discord.gg/yEv2KhVbWX
+Dashactyl is a client area, which allows users to split resources throughout multiple servers on the Pterodactyl Panel, and uses a Discord OAuth2 as a login system. 
 
-Website for Dashactyl: https://dashactyl.com
+It's developed by the community and people. Check out the Discord: https://discord.gg/yEv2KhVbWX
 
-Website for Dashpytyl: Soon
+Dashactyl website: https://dashactyl.com
+
+Dashpytyl website: Soon
 
 # Wiki
 
 Soon
 
 # Features
-| Feature               | Available |
+| Feature               | Done? |
 |-----------------------|-----------|
-| Server creation       | ❌         |
-| Server editing        | ❌         |
+| Creating servers       | ❌         |
+| Editing servers        | ❌         |
 | Server deletion       | ❌         |
-| Panel credentials     | ✔️         |
-| Login                 | ✔️         |
-| Registering           | ✔️         |
-| Discord oAuth handler | ✔️         |
-| Queue system          | ❌         |
-| Earning coins         | ❌         |
+| Creating panel credentials     | ✔️         |
+| Verifying using panel credentials                 | ✔️         |
+| Registering panel credentials           | ✔️         |
+| Discord login | ✔️         |
+| Earning coins         | ✔️         |
 | Resources shop        | ❌         |
 
-more features will be added soon.
+more features will be added in the near future
 
 # Disclaimer
 
 We are not responsible for any damages.
 
-You should not download anything from the develop branch! These files are not ready for production yet, and will be soon!
+You should not download anything from this repository yet! These files are not ready for production yet, and will be soon!
+
+To be notified of when we add new changes, star or watch this project!

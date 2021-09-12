@@ -1,6 +1,6 @@
 {
     "website": {
-        "port": "80"
+        "port": "8080"
     },
     "pterodactyl": {
         "url": "pterodactyl panel domain",
