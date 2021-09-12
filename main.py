@@ -144,7 +144,7 @@ def leaderboard():
 
 		with open("static/js/coins.json") as coin_:
 			coins = json.load(coin_)
-		with open("database/leaderboard/usernameToUserID.json") as _usernameAndID:
+		with open("api/usernameToUserID.json") as _usernameAndID:
 			usernameAndID = json.load(_usernameAndID)
 		with open("admins.json", "r") as adminsjsonfile:
 			adminsjson = json.load(adminsjsonfile)
@@ -190,7 +190,7 @@ def leaderboard():
 		with open("static/js/coins.json") as coin_:
 			coins = json.load(coin_)
 
-		with open("database/leaderboard/usernameToUserID.json"
+		with open("api/usernameToUserID.json"
                   ) as _usernameAndID:
 			usernameAndID = json.load(_usernameAndID)
 
