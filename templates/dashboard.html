@@ -26,7 +26,7 @@
                         "Font Awesome 5 Brands",
                         "simple-line-icons",
                     ],
-                    urls: ["/assets/css/fonts.min.css"],
+                    urls: ["{{ url_for('static', filename='css/fonts.min.css') }}"],
                 },
                 active: function () {
                     sessionStorage.fonts = true;
@@ -104,7 +104,7 @@
                                 >
                                     <div class="avatar-sm">
                                         <img
-                                            src="https://cdn.discordapp.com/avatars/881943254071906385/84ee21b5e3b98641262414b982bf8522.jpg?size=1024"
+                                            src="https://cdn.discordapp.com/avatars/881943254071906385/{{ user.avatar_hash }}.jpg?size=1024"
                                             alt="..."
                                             class="avatar-img rounded-circle"
                                         />
@@ -127,7 +127,7 @@
                                             <div class="user-box">
                                                 <div class="avatar-lg">
                                                     <img
-                                                        src="https://cdn.discordapp.com/avatars/881943254071906385/84ee21b5e3b98641262414b982bf8522.jpg?size=1024"
+                                                        src="https://cdn.discordapp.com/avatars/881943254071906385/{{ user.avatar_hash }}.jpg?size=1024"
                                                         alt="image profile"
                                                         class="
                                                             avatar-img
@@ -416,15 +416,27 @@
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Server Name</th>
-                                                        <th>RAM</th>
-                                                        <th>DISK</th>
-                                                        <th>CPU</th>
-                                                        <th>Manage</th>
+                                              <thead>
+                                                <tr>
+                                                  <th> Server Name </th>
+                                                  <th> RAM </th>
+                                                  <th> DISK </th>
+                                                  <th> CPU </th>
+                                                  <th> Manage </th>
+                                                </tr>
+                                              </thead>
+                                              
+                                                  <tbody>
+                                                  <tr>
+                                                      <td>test</td>
+                                                      <td>0MB</td>
+                                                      <td>0MB</td>
+                                                      <td>0%</td>
+                                                      <td><a href="/servers/edit?id=3" class="btn btn-success">Edit</a>&nbsp;&nbsp;&nbsp;<a href="/delete?id=3" class="btn btn-danger">Delete</a>&nbsp;&nbsp;&nbsp;<a href="https://panel.sikorianodes.me/server/a7a35c0a" target="_blank" rel="noopener noreferrer" class="btn btn-success">Link</a></td>
                                                     </tr>
-                                                </thead>
+                                                    <tr>                                                  
+                                                  </tbody>
+                                              
                                             </table>
                                         </div>
                                     </div>
