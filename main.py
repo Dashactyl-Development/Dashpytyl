@@ -5,19 +5,14 @@ from flask.logging import default_handler
 import sqlite3
 import db as userDB
 import json
-import api.leaderboardDB as lbDatabase
 
-userDB.db_create()
-from api import configfile, userdata, coins
+from api import configfile, userdata
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_discord import DiscordOAuth2Session ,requires_authorization, Unauthorized
 from pydactyl import PterodactylClient
 
 app = Flask(__name__)
-userIDtoName = []
-afkleaderboardlist = []
-leaderboardCoinsList = []
-leaderboarduserIDlist = []
+
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -48,7 +43,7 @@ def add(id, username):
     userDB.close()
 
 
-@app.route("/login/")
+@app.route("/login")
 def login():
     return discord.create_session()
 
@@ -59,7 +54,7 @@ def callback():
     return redirect(url_for('index'))
 
 
-@app.route('/logout/')
+@app.route('/logout')
 def logout():
     discord.revoke()
     return redirect(url_for('index'))
@@ -87,14 +82,14 @@ def index():
         return render_template('index.html')
 
 
-@app.route('/dashboard/')
+@app.route('/dashboard')
 @requires_authorization
 def dash():
     user = discord.fetch_user()
     return render_template("dashboard.html", user=user, panellink=configfile.pteroURL)
 
 
-@app.route('/create/')
+@app.route('/create')
 @requires_authorization
 def createuser():
     user = discord.fetch_user()
@@ -102,66 +97,12 @@ def createuser():
     return render_template("dashboard.html", user=user, panellink=configfile.pteroURL)
 
 
-@app.route('/servers/new/')
+@app.route('/servers/new')
 @requires_authorization
 def createserver():
     user = discord.fetch_user()
     return render_template("create.html", user=user, panellink=configfile.pteroURL)    
 
-
-# i cant do frontend sorry;-; 
-#   - giorno
-@app.route('/earn/', methods=["POST", "GET"])
-def earncoins():
-    
-    global userIDtoName
-    global afkleaderboardlist
-    global leaderboardCoinsList
-    global leaderboarduserIDlist
-
-    if discord.authorized:
-
-        user = discord.fetch_user()
-
-        with open("static/js/coins.json") as coin_:
-            coins = json.load(coin_)
-        with open("api/usernameToUserID.json") as _usernameAndID:
-            usernameAndID = json.load(_usernameAndID)
-
-        lbDatabase.checkifexists(user.id, f"{user.username}#{user.discriminator}")
-
-        userIDtoName = {}
-        leaderboardCoinsList = {}
-        afkleaderboardlist = []
-        leaderboarduserIDlist = []
-        i = 0
-        j = 0
-        l = 0
-
-        leaderboarduserIDlist = sorted(coins, key=coins.get, reverse=True)[:10]
-
-        for i in leaderboarduserIDlist:
-            userIDtoName[str(i)] = f"{usernameAndID[str(i)]}"
-
-        for j in leaderboarduserIDlist:
-            leaderboardCoinsList[str(j)] = coins[str(j)]
-
-        for l in leaderboarduserIDlist:
-            afkleaderboardlist.append(
-                f"{userIDtoName[l]} -> {leaderboardCoinsList[l]}")
-
-        lbDatabase.checkifexists(user.id, f"{user.username}#{user.discriminator}")
-
-        if type(request.get_json()) is None:
-            pass
-
-        elif type(request.get_json()) is dict:
-            coins.addCoins(str(user.id), int(request.get_json()["coins"]))
-
-        return render_template("earning.html", leaderboardpeople=afkleaderboardlist)
-
-    elif not discord.authorized:
-        return redirect(url_for("login"))
 
 
 if __name__ == "__main__":
