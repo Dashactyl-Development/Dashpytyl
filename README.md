@@ -1,3 +1,5 @@
+# **MOVED TO https://github.com/Votion-Development**
+
 ![Banner](https://media.discordapp.net/attachments/706970617471303761/768606122147708968/pterodactyl-panel.png)
 
 # Dashpytyl
