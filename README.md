@@ -1,4 +1,4 @@
-# **MOVED TO https://github.com/Votion-Development**
+# **MOVED TO https://github.com/Shersha01/Meatyl**
 
 ![Banner](https://media.discordapp.net/attachments/706970617471303761/768606122147708968/pterodactyl-panel.png)
 
